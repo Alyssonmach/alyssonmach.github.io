@@ -170,7 +170,15 @@
       {% endif %}
       {% if author.zhihu %}
       <li><a href="https://www.zhihu.com/people/{{ author.zhihu }}"><i class="fab fa-fw fa-zhihu icon-pad-right" aria-hidden="true"></i>Zhihu</a></li>
-      {% endif %}      
+      {% endif %}     
+      {% if author.lattes %}
+        <li>
+          <a href="{{ author.lattes }}" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-fw fa-graduation-cap icon-pad-right" aria-hidden="true"></i>
+            Lattes
+          </a>
+        </li>
+      {% endif %} 
     </ul>
   </div>
 </div>
