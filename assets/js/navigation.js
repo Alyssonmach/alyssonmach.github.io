@@ -14,6 +14,72 @@
   history.replaceState({ ...history.state, partialNavigation: true, scroll: [scrollX, scrollY] }, '', location.href);
   history.scrollRestoration = 'manual';
 
+  // Small, short-lived in-memory cache; shared requests avoid duplicate downloads.
+  const pageCache = new Map();
+  const CACHE_LIMIT = 8;
+  const CACHE_TTL = 120000;
+  const progress = document.createElement('div');
+  progress.className = 'navigation-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  document.querySelector('.masthead').appendChild(progress);
+
+  function requestPage(url) {
+    const key = new URL(url);
+    key.hash = '';
+    const href = key.href;
+    const cached = pageCache.get(href);
+    if (cached && Date.now() - cached.created < CACHE_TTL) {
+      pageCache.delete(href);
+      pageCache.set(href, cached);
+      return cached.promise;
+    }
+    const controller = new AbortController();
+    const entry = { created: Date.now() };
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    entry.promise = fetch(href, { signal: controller.signal, headers: { Accept: 'text/html' } })
+      .then(async response => {
+        if (!response.ok || !response.headers.get('content-type')?.includes('text/html') || response.redirected) throw Error('Full navigation required');
+        return response.text();
+      }).catch(error => {
+        if (pageCache.get(href) === entry) pageCache.delete(href);
+        throw error;
+      }).finally(() => clearTimeout(timeout));
+    pageCache.set(href, entry);
+    if (pageCache.size > CACHE_LIMIT) pageCache.delete(pageCache.keys().next().value);
+    return entry.promise;
+  }
+
+  function readPage(url, signal) {
+    return new Promise((resolve, reject) => {
+      const abort = () => reject(new Error('Navigation cancelled'));
+      if (signal.aborted) { abort(); return; }
+      signal.addEventListener('abort', abort, { once: true });
+      requestPage(url).then(resolve, reject).finally(() => signal.removeEventListener('abort', abort));
+    });
+  }
+
+  // Prefetch only menu destinations the visitor is about to use.
+  let intentTimer;
+  let prefetching = 0;
+  function prefetch(link) {
+    const connection = navigator.connection;
+    if (!link || connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || '') || prefetching >= 2) return;
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin || url.search || (url.pathname === location.pathname) ||
+        link.hasAttribute('download') || link.hasAttribute('data-no-partial') || (link.target && link.target !== '_self')) return;
+    prefetching++;
+    requestPage(url.href).catch(() => {}).finally(() => prefetching--);
+  }
+  document.querySelector('#site-nav').addEventListener('pointerover', event => {
+    clearTimeout(intentTimer);
+    const link = event.target.closest('a[href]');
+    intentTimer = setTimeout(() => prefetch(link), 90);
+  });
+  document.querySelector('#site-nav').addEventListener('pointerleave', () => clearTimeout(intentTimer));
+  ['focusin', 'pointerdown'].forEach(type => document.querySelector('#site-nav').addEventListener(type, event => {
+    prefetch(event.target.closest('a[href]'));
+  }));
+
   function saveScroll() {
     history.replaceState({ ...history.state, partialNavigation: true, scroll: [scrollX, scrollY] }, '', location.href);
   }
@@ -63,11 +129,15 @@
     pending = controller;
     const timeout = setTimeout(() => controller.abort('timeout'), 10000);
     main.setAttribute('aria-busy', 'true');
-    status.textContent = 'Carregando…';
+    progress.removeAttribute('data-loading');
+    const loadingTimer = setTimeout(() => {
+      if (pending !== controller) return;
+      progress.setAttribute('data-loading', 'true');
+      status.textContent = 'Carregando…';
+    }, 180);
     try {
-      const response = await fetch(url, { signal: controller.signal, headers: { Accept: 'text/html' } });
-      if (!response.ok || !response.headers.get('content-type')?.includes('text/html') || response.redirected) throw Error('Full navigation required');
-      const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+      const html = await readPage(url, controller.signal);
+      const doc = new DOMParser().parseFromString(html, 'text/html');
       if (pending !== controller) return;
       if (!compatible(doc)) throw Error('Full navigation required');
       const next = doc.getElementById('main');
@@ -76,7 +146,7 @@
       Array.from(main.children).filter(node => !node.matches('.sidebar')).forEach(node => node.remove());
       Array.from(next.children).filter(node => !node.matches('.sidebar')).forEach(node => {
         main.appendChild(node);
-        if (!reducedMotion.matches && node.animate) node.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160 });
+        if (!reducedMotion.matches && node.animate) node.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 140, easing: 'ease-out' });
       });
       if (!state) history.pushState({ partialNavigation: true, scroll: [0, 0] }, '', url);
       currentURL = location.href;
@@ -103,7 +173,10 @@
       if (pending === controller) location.assign(url);
     } finally {
       clearTimeout(timeout);
-      if (pending === controller) { pending = null; main.removeAttribute('aria-busy'); }
+      clearTimeout(loadingTimer);
+      if (pending === controller) {
+        pending = null; main.removeAttribute('aria-busy'); progress.removeAttribute('data-loading');
+      }
     }
   }
 
@@ -114,7 +187,7 @@
     const url = new URL(link.href, location.href);
     if (url.origin !== location.origin || !/^https?:$/.test(url.protocol) || /\.[^/]+$/.test(url.pathname) && !/\.html?$/.test(url.pathname)) return;
     if (url.pathname === location.pathname && url.search === location.search) {
-      pending?.abort(); pending = null; main.removeAttribute('aria-busy'); status.textContent = '';
+      pending?.abort(); pending = null; main.removeAttribute('aria-busy'); progress.removeAttribute('data-loading'); status.textContent = '';
       return;
     }
     event.preventDefault();
@@ -133,7 +206,7 @@
   window.addEventListener('popstate', event => {
     const previous = new URL(currentURL);
     if (previous.pathname === location.pathname && previous.search === location.search) {
-      pending?.abort(); pending = null; main.removeAttribute('aria-busy'); status.textContent = '';
+      pending?.abort(); pending = null; main.removeAttribute('aria-busy'); progress.removeAttribute('data-loading'); status.textContent = '';
       currentURL = location.href;
       if (event.state?.scroll) window.scrollTo(...event.state.scroll);
       return;
