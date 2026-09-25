@@ -1,75 +1,61 @@
-/* ==========================================================================
-   Various functions that we want to use within the template
-   ========================================================================== */
-
-/*jslint es6 */
+/* Initialize optional diagrams on both full and partial page loads. */
 'use strict';
+const PLOTLY_URL = 'https://cdn.jsdelivr.net/npm/plotly.js@3.6.0/dist/plotly.min.js';
+const MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+let plotlyReady;
+let mermaidReady;
 
-// Constants for CDNs
-const PLOTLY_URL = "https://cdn.jsdelivr.net/npm/plotly.js@3.6.0/dist/plotly.min.js";
-const MERMAID_URL = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-
-// Defer the loading of Mermaid to only if there is a field on the page to be rendered
-let mermaidElements = document.querySelectorAll("pre>code.language-mermaid");
-if (mermaidElements.length > 0) {
-  document.addEventListener("readystatechange", function() {
-    // Append the Mermaid module to the DOM
-    const moduleScript = document.createElement('script');
-    moduleScript.type = 'module';
-    moduleScript.textContent = `
-      import mermaid from '${MERMAID_URL}';
-      mermaid.initialize({startOnLoad:true, theme:'default'});
-      await mermaid.run({querySelector:'code.language-mermaid'});
-    `;
-    document.body.appendChild(moduleScript);
-  });
+function loadPlotly() {
+  if (window.Plotly) return Promise.resolve(window.Plotly);
+  if (!plotlyReady) {
+    plotlyReady = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = PLOTLY_URL;
+      script.dataset.contentResource = 'true';
+      script.onload = () => resolve(window.Plotly);
+      script.onerror = () => { script.remove(); plotlyReady = null; reject(new Error('Unable to load Plotly')); };
+      document.head.appendChild(script);
+    });
+  }
+  return plotlyReady;
 }
 
-/* ==========================================================================
-   Plotly integration script so that Markdown codeblocks will be rendered
-   ========================================================================== */
-
-// Read the Plotly data from the code block, hide it, and render the chart as new node. This allows for the
-// JSON data to be retrieve when the theme is switched. The listener should only be added if the data is
-// actually present on the page.
-//
-// NOTE that plotlyLightLayout will be exposed in the bundled file
-let plotlyElements = document.querySelectorAll("pre>code.language-plotly");
-if (plotlyElements.length > 0) {
-  document.addEventListener("readystatechange", function() {
-    // Return if not ready
-    if (document.readyState !== "complete") {
-      return;
-    }
-
-    // Prepare to load Plotly from the CDN
-    const script = document.createElement('script');
-    script.src = PLOTLY_URL;
-    script.async = true;
-
-    // Once loaded, update the page elements to work with it
-    script.onload = function() {
-      plotlyElements.forEach(function(elem) {
-        // Parse the Plotly JSON data and hide it
-        let jsonData = JSON.parse(elem.textContent);
-        elem.parentElement.classList.add("hidden");
-
-        // Add the Plotly node
-        let chartElement = document.createElement("div");
-        elem.parentElement.after(chartElement);
-
-        // Set the theme for the plot and render it
-        const theme = plotlyLightLayout;
-        if (jsonData.layout) {
-          jsonData.layout.template = (jsonData.layout.template) ? { ...theme, ...jsonData.layout.template } : theme;
-        } else {
-          jsonData.layout = { template: theme };
+async function initializeContent(root) {
+  const plots = Array.from(root.querySelectorAll('pre > code.language-plotly:not([data-rendered])'));
+  if (plots.length) {
+    try {
+      const plotly = await loadPlotly();
+      for (const element of plots) {
+        if (!element.isConnected || element.dataset.rendered) continue;
+        let chart;
+        try {
+          const data = JSON.parse(element.textContent);
+          const layout = { ...data.layout, template: data.layout?.template || plotlyLightLayout };
+          chart = document.createElement('div');
+          element.parentElement.after(chart);
+          await plotly.newPlot(chart, data.data, layout, { responsive: true });
+          element.dataset.rendered = 'true';
+          element.parentElement.classList.add('hidden');
+        } catch (error) {
+          chart?.remove();
+          console.warn('Unable to render chart', error);
         }
-        Plotly.react(chartElement, jsonData.data, jsonData.layout);
-      });
-    }
-
-    // Add the script to the document
-    document.head.appendChild(script);
-  });
+      }
+    } catch (error) { console.warn(error); }
+  }
+  const diagrams = Array.from(root.querySelectorAll('code.language-mermaid:not([data-processed])'));
+  if (diagrams.length) {
+    try {
+      if (!mermaidReady) mermaidReady = import(MERMAID_URL).then(module => {
+        module.default.initialize({ startOnLoad: false, theme: 'default' });
+        return module.default;
+      }).catch(error => { mermaidReady = null; throw error; });
+      const mermaid = await mermaidReady;
+      await mermaid.run({ nodes: diagrams.filter(node => node.isConnected) });
+    } catch (error) { console.warn('Unable to render diagram', error); }
+  }
 }
+
+document.addEventListener('site:content', event => initializeContent(event.detail.root));
+// Defer until all constants in this module (including the Plotly template) exist.
+Promise.resolve().then(() => initializeContent(document));

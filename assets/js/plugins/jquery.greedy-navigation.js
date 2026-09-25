@@ -51,6 +51,7 @@
   hidden.addEventListener('click', function (event) {
     if (event.target.closest('a')) closeMenu();
   });
+  document.addEventListener('site:navigated', function () { closeMenu(); updateNav(); });
   window.addEventListener('resize', updateNav);
   window.addEventListener('pageshow', function () { closeMenu(); updateNav(); });
   if (document.fonts) document.fonts.ready.then(updateNav);
