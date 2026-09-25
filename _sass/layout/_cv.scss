@@ -1,0 +1,94 @@
+/* A readable, responsive text column for the curriculum. */
+.cv__content {
+  max-width: 70ch;
+  min-width: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: left;
+  overflow-wrap: anywhere;
+
+  > p:first-child {
+    margin-top: 0.75em;
+
+    > strong {
+      font-size: 1.1em;
+    }
+  }
+
+  h2,
+  h3 {
+    font-family: $sans-serif;
+    line-height: 1.35;
+    text-wrap: balance;
+    scroll-margin-top: calc(var(--masthead-height, #{$masthead-height}) + 16px);
+  }
+
+  h2 {
+    margin: 2.25em 0 0.9em;
+    padding-bottom: 0.45em;
+    border-bottom: 1px solid var(--global-border-color);
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+  }
+
+  h3 {
+    margin: 1.5em 0 0.5em;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0 0 1em;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.3em;
+    margin: 0 0 1.25em;
+  }
+
+  li {
+    padding-left: 0.2em;
+    margin-bottom: 0.85em;
+  }
+
+  ol {
+    padding-left: 1.65em;
+
+    li {
+      margin-bottom: 1.25em;
+    }
+
+    li::marker {
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  a {
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+  }
+
+  > hr {
+    margin: 2em 0 1em;
+  }
+
+  > p:last-child {
+    font-size: 0.85em;
+  }
+
+  @media (max-width: $small - 1px) {
+    h2 {
+      margin-top: 1.8em;
+      font-size: 1.15rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+  }
+}
