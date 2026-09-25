@@ -5,7 +5,6 @@
   var button = nav.querySelector('.nav-toggle');
   var visible = nav.querySelector('.visible-links');
   var hidden = nav.querySelector('.hidden-links');
-  var tail = visible.querySelector('.tail');
   var links = Array.from(visible.children).filter(function (item) {
     return !item.classList.contains('persist');
   });
@@ -19,7 +18,7 @@
 
   function updateNav() {
     // Start from the original order rather than cached widths from another layout.
-    links.forEach(function (item) { visible.insertBefore(item, tail); });
+    links.forEach(function (item) { visible.appendChild(item); });
     button.classList.add('hidden');
     if (mobile.matches) {
       links.forEach(function (item) { hidden.appendChild(item); });

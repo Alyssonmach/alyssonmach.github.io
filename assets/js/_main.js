@@ -9,45 +9,6 @@
 const PLOTLY_URL = "https://cdn.jsdelivr.net/npm/plotly.js@3.6.0/dist/plotly.min.js";
 const MERMAID_URL = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
 
-// Detect OS/browser preference
-const browserPref = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-// Determine the computed theme, which can be "dark" or "light".
-function determineComputedTheme() {
-  // Determine the expected state of the theme toggle, which can be "dark", "light", or default "system"
-  let themeSetting = localStorage.getItem("theme");
-  themeSetting = (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") ? "system" : themeSetting;
-
-  // Return the setting if set, or use the browser preference
-  if (themeSetting != "system") {
-    return themeSetting;
-  }
-  return browserPref ? "dark" : "light";
-}
-
-// Set the theme on page load or when explicitly called. Without an argument the
-// theme is the stored preference or, failing that, the OS/browser preference.
-function setTheme(theme) {
-  const use_theme = theme || determineComputedTheme();
-
-  if (use_theme === "dark") {
-    $("html").attr("data-theme", "dark");
-    $("#theme-icon").removeClass("fa-sun").addClass("fa-moon");
-  } else if (use_theme === "light") {
-    $("html").removeAttr("data-theme");
-    $("#theme-icon").removeClass("fa-moon").addClass("fa-sun");
-  }
-}
-
-// Toggle the theme manually
-function toggleTheme() {
-  const current_theme = $("html").attr("data-theme");
-  const new_theme = current_theme === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", new_theme);
-  setTheme(new_theme);
-  redrawPlotly();
-}
-
 // Defer the loading of Mermaid to only if there is a field on the page to be rendered
 let mermaidElements = document.querySelectorAll("pre>code.language-mermaid");
 if (mermaidElements.length > 0) {
@@ -72,7 +33,7 @@ if (mermaidElements.length > 0) {
 // JSON data to be retrieve when the theme is switched. The listener should only be added if the data is
 // actually present on the page.
 //
-// NOTE that plotlyDarkLayout and plotlyLightLayout will be exposed in the minimized file
+// NOTE that plotlyLightLayout will be exposed in the bundled file
 let plotlyElements = document.querySelectorAll("pre>code.language-plotly");
 if (plotlyElements.length > 0) {
   document.addEventListener("readystatechange", function() {
@@ -98,7 +59,7 @@ if (plotlyElements.length > 0) {
         elem.parentElement.after(chartElement);
 
         // Set the theme for the plot and render it
-        const theme = (determineComputedTheme() === "dark") ? plotlyDarkLayout : plotlyLightLayout;
+        const theme = plotlyLightLayout;
         if (jsonData.layout) {
           jsonData.layout.template = (jsonData.layout.template) ? { ...theme, ...jsonData.layout.template } : theme;
         } else {
@@ -112,58 +73,3 @@ if (plotlyElements.length > 0) {
     document.head.appendChild(script);
   });
 }
-
-function redrawPlotly() {
-  plotlyElements.forEach(function(elem) {
-    // Parse the Plotly JSON data
-    let jsonData = JSON.parse(elem.textContent);
-
-    // Get the Plotly node
-    let chartElement = $(elem).parent().next().get(0);
-
-    // Set the theme for the plot and render it
-    const theme = (determineComputedTheme() === "dark") ? plotlyDarkLayout : plotlyLightLayout;
-    if (jsonData.layout) {
-      jsonData.layout.template = (jsonData.layout.template) ? { ...theme, ...jsonData.layout.template } : theme;
-    } else {
-      jsonData.layout = { template: theme };
-    }
-    Plotly.react(chartElement, jsonData.data, jsonData.layout);
-  });
-}
-
-/* ==========================================================================
-   Actions that should occur when the page has been fully loaded
-   ========================================================================== */
-
-$(document).ready(function () {
-  // SCSS SETTINGS - These should be the same as the settings in the relevant files
-  const scssLarge = 925;          // pixels, from /_sass/_themes.scss
-  const scssMastheadHeight = 70;  // pixels, from the current theme (e.g., /_sass/theme/_default.scss)
-
-  // If the user hasn't chosen a theme, follow the OS preference
-  setTheme();
-  window.matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme")) {
-            setTheme(e.matches ? "dark" : "light");
-          }
-        });
-
-  // Enable the theme toggle
-  $('#theme-toggle').on('click', toggleTheme);
-
-  // Follow menu drop down
-  $(".author__urls-wrapper button").on("click", function () {
-    $(".author__urls").fadeToggle("fast", function () { });
-    $(".author__urls-wrapper button").toggleClass("open");
-  });
-
-  // Restore the follow menu if toggled on a window resize
-  jQuery(window).on('resize', function () {
-    if ($('.author__urls.social-icons').css('display') == 'none' && $(window).width() >= scssLarge) {
-      $(".author__urls").css('display', 'block')
-    }
-  });
-
-});

@@ -51,7 +51,6 @@
   }
 }
 
-
 /*
    Post pagination navigation links
    ========================================================================== */
@@ -167,7 +166,6 @@
   border-top: 1px solid var(--global-border-color);
 }
 
-
 /*
    Priority plus navigation
    ========================================================================== */
@@ -202,7 +200,6 @@
     z-index: 100;
   }
 
-
   .visible-links {
     display: table;
 
@@ -224,15 +221,6 @@
         a {
           margin-right: 0;
         }
-      }
-    }
-
-    #theme-toggle {
-      a {
-        width: 25px;
-        display: flex;
-        justify-content: center;
-        cursor: pointer;
       }
     }
 
@@ -284,16 +272,6 @@
         a { margin-right: 0; }
       }
 
-      #theme-toggle {
-        flex: 0 0 44px;
-
-        a {
-          width: 44px;
-          min-height: 44px;
-          margin: 0;
-          align-items: center;
-        }
-      }
     }
 
     > .nav-toggle {
@@ -374,7 +352,6 @@
   }
 }
 
-
 /*
    Navigation list
    ========================================================================== */
@@ -429,7 +406,6 @@
   text-transform: uppercase;
   border-bottom: 1px solid var(--global-border-color);
 }
-
 
 /*
    Table of contents navigation
