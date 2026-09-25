@@ -1,86 +1,67 @@
-/*
-* Greedy Navigation
-*
-* http://codepen.io/lukejacksonn/pen/PwmwWV
-*
-*/
+/* Responsive navigation: keep every page link in the mobile menu. */
+(function () {
+  var nav = document.getElementById('site-nav');
+  if (!nav) return;
+  var button = nav.querySelector('.nav-toggle');
+  var visible = nav.querySelector('.visible-links');
+  var hidden = nav.querySelector('.hidden-links');
+  var tail = visible.querySelector('.tail');
+  var links = Array.from(visible.children).filter(function (item) {
+    return !item.classList.contains('persist');
+  });
+  var mobile = window.matchMedia('(max-width: 924px)');
 
-var $nav = $('#site-nav');
-var $btn = $('#site-nav button');
-var $vlinks = $('#site-nav .visible-links');
-var $vlinks_persist_tail = $vlinks.children("*.persist.tail");
-var $hlinks = $('#site-nav .hidden-links');
+  function closeMenu() {
+    hidden.classList.add('hidden');
+    button.classList.remove('close');
+    button.setAttribute('aria-expanded', 'false');
+  }
 
-var breaks = [];
-
-function updateNav() {
-
-  var availableSpace = $btn.hasClass('hidden') ? $nav.width() : $nav.width() - $btn.width() - 30;
-
-  // The visible list is overflowing the nav
-  if ($vlinks.width() > availableSpace) {
-
-    while ($vlinks.width() > availableSpace && $vlinks.children("*:not(.persist)").length > 0) {
-      // Record the width of the list
-      breaks.push($vlinks.width());
-
-      // Move item to the hidden list
-      $vlinks.children("*:not(.persist)").last().prependTo($hlinks);
-
-      availableSpace = $btn.hasClass("hidden") ? $nav.width() : $nav.width() - $btn.width() - 30;
-
-      // Show the dropdown btn
-      $btn.removeClass("hidden");
-    }
-
-    // The visible list is not overflowing
-  } else {
-
-    // There is space for another item in the nav
-    while (breaks.length > 0 && availableSpace > breaks[breaks.length - 1]) {
-      // Move the item to the visible list
-      if ($vlinks_persist_tail.children().length > 0) {
-        $hlinks.children().first().insertBefore($vlinks_persist_tail);
-      } else {
-        $hlinks.children().first().appendTo($vlinks);
+  function updateNav() {
+    // Start from the original order rather than cached widths from another layout.
+    links.forEach(function (item) { visible.insertBefore(item, tail); });
+    button.classList.add('hidden');
+    if (mobile.matches) {
+      links.forEach(function (item) { hidden.appendChild(item); });
+    } else if (visible.getBoundingClientRect().width > nav.clientWidth) {
+      button.classList.remove('hidden');
+      var available = nav.clientWidth - button.getBoundingClientRect().width - 8;
+      while (visible.getBoundingClientRect().width > available) {
+        var candidates = visible.querySelectorAll(':scope > li:not(.persist)');
+        if (!candidates.length) break;
+        hidden.insertBefore(candidates[candidates.length - 1], hidden.firstChild);
       }
-      breaks.pop();
     }
-
-    // Hide the dropdown btn if hidden list is empty
-    if (breaks.length < 1) {
-      $btn.addClass('hidden');
-      $btn.removeClass('close');
-      $hlinks.addClass('hidden');
-    }
+    button.classList.toggle('hidden', hidden.children.length === 0);
+    button.setAttribute('count', hidden.children.length);
+    if (!hidden.children.length) closeMenu();
   }
 
-  // Keep counter updated
-  $btn.attr("count", breaks.length);
+  button.addEventListener('click', function () {
+    var open = button.getAttribute('aria-expanded') !== 'true';
+    hidden.classList.toggle('hidden', !open);
+    button.classList.toggle('close', open);
+    button.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', function (event) {
+    if (!nav.contains(event.target)) closeMenu();
+  });
+  nav.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') { closeMenu(); button.focus(); }
+  });
+  hidden.addEventListener('click', function (event) {
+    if (event.target.closest('a')) closeMenu();
+  });
+  window.addEventListener('resize', updateNav);
+  window.addEventListener('pageshow', function () { closeMenu(); updateNav(); });
+  if (document.fonts) document.fonts.ready.then(updateNav);
 
-  // update masthead height and the body/sidebar top padding
-  var mastheadHeight = $('.masthead').height();
-  $('body').css('padding-top', mastheadHeight + 'px');
-  if ($(".author__urls-wrapper button").is(":visible")) {
-    $(".sidebar").css("padding-top", "");
-  } else {
-    $(".sidebar").css("padding-top", mastheadHeight + "px");
+  var masthead = document.querySelector('.masthead');
+  function updateHeaderHeight() {
+    document.documentElement.style.setProperty('--masthead-height', masthead.getBoundingClientRect().height + 'px');
   }
-
-}
-
-// Window listeners
-
-$(window).on('resize', function () {
+  if (window.ResizeObserver) new ResizeObserver(updateHeaderHeight).observe(masthead);
+  else window.addEventListener('resize', updateHeaderHeight);
   updateNav();
-});
-screen.orientation.addEventListener("change", function () {
-  updateNav();
-});
-
-$btn.on('click', function () {
-  $hlinks.toggleClass('hidden');
-  $(this).toggleClass('close');
-});
-
-updateNav();
+  updateHeaderHeight();
+})();
