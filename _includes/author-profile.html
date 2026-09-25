@@ -19,7 +19,24 @@
     {% if author.pronouns %}<p class="author__pronouns">{{ author.pronouns }}</p>{% endif %}
   </div>
 
-  {% if author.bio %}<p class="author__bio">{{ author.bio }}</p>{% endif %}
+  {% if author.bio %}
+    {% assign bio_lines = author.bio | split: '|' %}
+    <div class="author__bio">
+      <p class="author__role">{{ bio_lines.first | strip }}</p>
+      {% if bio_lines.size > 1 %}
+        <ul class="author__expertise">
+          {% for line in bio_lines offset:1 %}
+            {% assign topic = line | strip %}
+            {% if topic == 'Processamento de Imagens Digitais' %}
+              <li class="author__expertise-long">Processamento de<span class="author__topic-break"> </span>Imagens Digitais</li>
+            {% elsif topic != '' %}
+              <li>{{ topic }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
 
   <div class="author__urls-wrapper">
     <ul class="author__urls social-icons">
