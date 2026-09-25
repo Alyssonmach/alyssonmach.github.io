@@ -212,7 +212,8 @@
 
       &:first-child {
         font-weight: bold;
-        text-wrap: wrap;
+        white-space: nowrap;
+        text-wrap: nowrap;
 
         a {
           margin-left: 0;
@@ -259,6 +260,11 @@
                 transform: scaleX(1); /* reveal*/
       }
     }
+
+    // The active page already has a permanent underline.
+    .selected > a::before {
+      content: none;
+    }
   }
 
   @media (max-width: $large - 1px) {
@@ -275,7 +281,7 @@
         min-width: 0;
         padding-right: 8px;
 
-        a { margin-right: 0; overflow-wrap: anywhere; }
+        a { margin-right: 0; }
       }
 
       #theme-toggle {
@@ -295,6 +301,14 @@
       height: 44px;
       top: 50%;
       transform: translateY(-50%);
+    }
+  }
+
+  // Allow a break at spaces only when very narrow screens need it.
+  @media (max-width: 359px) {
+    .visible-links > li:first-child {
+      white-space: normal;
+      text-wrap: wrap;
     }
   }
 
