@@ -96,20 +96,50 @@ Trabalhos registrados no Lattes na seção de publicações em anais de congress
 
 ## Formação complementar
 
+- **Machine Learning Specialization** (Coursera) - 50 horas.
 - **Deep Learning Specialization** (Coursera) - 240 horas.
 - **AI for Medicine Specialization** (Coursera) - 84 horas.
-- **Machine Learning Specialization** (Coursera) - 50 horas.
 
 ## Competências e áreas de atuação
 
 - **Inteligência artificial:** aprendizado de máquina, aprendizado profundo, visão computacional, processamento de linguagem natural e grandes modelos de linguagem.
 - **Pesquisa e desenvolvimento:** análise de imagens médicas, séries temporais, sensores IoT, gêmeos digitais e aplicações em sistemas de energia.
 - **Linguagens:** Python, C, C++ e PHP.
-- **Ferramentas:** TensorFlow, PyTorch e Hugging Face.
+
+### Ferramentas e tecnologias
+
+<dl class="cv__tools">
+  <div class="cv__tools-group">
+    <dt>Dados e análise</dt>
+    <dd>Python, SQL, pandas, NumPy, SciPy, PySpark</dd>
+  </div>
+  <div class="cv__tools-group">
+    <dt>Machine learning</dt>
+    <dd>scikit-learn, XGBoost</dd>
+  </div>
+  <div class="cv__tools-group">
+    <dt>Deep learning</dt>
+    <dd>PyTorch, TensorFlow, Keras</dd>
+  </div>
+  <div class="cv__tools-group">
+    <dt>NLP e LLMs</dt>
+    <dd>Hugging Face, Transformers, spaCy, NLTK</dd>
+  </div>
+  <div class="cv__tools-group">
+    <dt>Visão computacional</dt>
+    <dd>OpenCV, scikit-image</dd>
+  </div>
+  <div class="cv__tools-group">
+    <dt>Visualização e aplicações</dt>
+    <dd>Matplotlib, Seaborn, Plotly, Streamlit, Power BI</dd>
+  </div>
+  <div class="cv__tools-group">
+    <dt>Desenvolvimento</dt>
+    <dd>Jupyter, Git, Docker</dd>
+  </div>
+</dl>
 
 ## Idiomas
-
-Competências autodeclaradas no Lattes:
 
 - **Português:** boa compreensão, fala, leitura e escrita.
 - **Inglês:** boa compreensão e leitura; fala limitada e escrita razoável.
@@ -123,4 +153,4 @@ Competências autodeclaradas no Lattes:
 
 ---
 
-*Síntese do Currículo Lattes atualizado em 20 de setembro de 2026.*
+*Atualizado em 20 de setembro de 2026.*
