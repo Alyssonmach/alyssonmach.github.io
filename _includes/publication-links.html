@@ -1,0 +1,5 @@
+<div class="publication-links" aria-label="Links da publicação">
+  {% if include.work.paperurl %}<a href="{{ include.work.paperurl }}">{{ include.work.paper_label | default: 'Ver trabalho' }}</a>{% endif %}
+  {% if include.work.doi %}<a href="https://doi.org/{{ include.work.doi }}" aria-label="DOI: {{ include.work.doi }}">DOI</a>{% endif %}
+  {% if include.work.bibtexurl %}<a href="{{ include.work.bibtexurl | relative_url }}" download>BibTeX</a>{% endif %}
+</div>

@@ -5,32 +5,28 @@ permalink: /publications/
 author_profile: true
 ---
 
-{% if site.author.googlescholar %}
-  <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
-{% endif %}
+<p class="publications__intro">Consulte meu <a href="{{ site.author.orcid }}">ORCID</a>{% if site.author.googlescholar %} e meu perfil no <a href="{{ site.author.googlescholar }}">Google Scholar</a>{% endif %}.</p>
 
-{% include base_path %}
-
-<!-- New style rendering if publication categories are defined -->
-{% if site.publication_category %}
-  {% for category in site.publication_category  %}
-    {% assign title_shown = false %}
-    {% for post in site.publications reversed %}
-      {% if post.category != category[0] %}
-        {% continue %}
-      {% endif %}
-      {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
-        {% assign title_shown = true %}
-      {% endunless %}
-      {% include archive-single.html %}
-    {% endfor %}
+<div class="publications">
+  {% assign categories = site.publications | group_by: 'category' | sort: 'name' %}
+  {% for category in categories %}
+    {% assign works = category.items | sort: 'date' | reverse %}
+    {% assign category_title = site.data.publication_categories[category.name] | default: category.name | default: 'Outras publicações' %}
+    {% if works.size > 0 %}
+      <section class="publications__group" aria-labelledby="publication-category-{{ forloop.index }}">
+        <h2 id="publication-category-{{ forloop.index }}" class="publications__heading">{{ category_title }}</h2>
+        {% for work in works %}
+          <article class="publication-card">
+            <p class="publication-card__year">{{ work.publication_year }}</p>
+            <div class="publication-card__body">
+              <h3><a href="{{ work.url | relative_url }}">{{ work.title }}</a></h3>
+              {% if work.authors %}<p class="publication-card__authors">{{ work.authors }}</p>{% endif %}
+              <p class="publication-card__venue"><i>{{ work.venue }}</i>{% if work.volume %} · v. {{ work.volume }}, supl. {{ work.supplement }}{% endif %}</p>
+              {% include publication-links.html work=work %}
+            </div>
+          </article>
+        {% endfor %}
+      </section>
+    {% endif %}
   {% endfor %}
-{% else %}
-  {% for post in site.publications reversed %}
-    {% include archive-single.html %}
-  {% endfor %}
-{% endif %}
-
-
-
+</div>

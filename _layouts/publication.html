@@ -1,0 +1,22 @@
+---
+layout: archive
+---
+<article class="publication-detail">
+  <p class="publication-detail__type">{{ page.type }} · {{ page.publication_year }}</p>
+  {% if page.authors %}<p class="publication-detail__authors">{{ page.authors }}</p>{% endif %}
+  <dl class="publication-detail__metadata">
+    <dt>Veículo / instituição</dt><dd>{{ page.venue }}</dd>
+    {% if page.event %}<dt>Evento</dt><dd>{{ page.event }}</dd>{% endif %}
+    {% if page.volume %}<dt>Volume</dt><dd>{{ page.volume }}, suplemento {{ page.supplement }}</dd>{% endif %}
+    {% if page.doi %}<dt>DOI</dt><dd><a href="https://doi.org/{{ page.doi }}">{{ page.doi }}</a></dd>{% endif %}
+    {% if page.issn %}<dt>ISSN</dt><dd>{{ page.issn }}</dd>{% endif %}
+  </dl>
+  {% include publication-links.html work=page %}
+  {{ content }}
+  {% if page.citation %}
+    <h2>Referência bibliográfica</h2>
+    <p class="publication-detail__citation">{{ page.citation }}</p>
+  {% endif %}
+  <p class="publication-detail__source">Registro no <a href="{{ page.sourceurl }}">ORCID</a>.</p>
+  <p><a href="{{ '/publications/' | relative_url }}">← Todas as publicações</a></p>
+</article>
