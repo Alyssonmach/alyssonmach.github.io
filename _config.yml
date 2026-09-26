@@ -39,7 +39,7 @@ author:
   googlescholar    : "https://scholar.google.com/citations?user=0N7ZgOgAAAAJ&hl=pt-BR"
   inspire-hep      : # URL
   impactstory      : # URL
-  orcid            : "https://orcid.org/my-orcid?orcid=0000-0003-3025-9382"
+  orcid            : "https://orcid.org/0000-0003-3025-9382"
   semantic         : # URL
   ssrn             : # URL
   pubmed           : # URL
@@ -85,12 +85,14 @@ author:
 
 # Publication Category - The following the list of publication categories and their headings
 publication_category:
-  books:
-    title: 'Books'
-  manuscripts:
-    title: 'Journal Articles'    
   conferences:
-    title: 'Conference Papers'
+    title: 'Trabalhos em congressos'
+  manuscripts:
+    title: 'Resumos em periódico'
+  presentations:
+    title: 'Apresentações em congressos'
+  theses:
+    title: 'Trabalhos acadêmicos'
 
 # Site Settings
 teaser                   :  # filename of teaser fallback teaser image placed in /images/ for social media previews
