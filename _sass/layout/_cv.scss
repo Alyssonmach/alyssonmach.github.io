@@ -92,3 +92,39 @@
     }
   }
 }
+
+// Compact technology groups; labels stack above their values on phones.
+.cv__content .cv__tools {
+  margin: 0 0 1.5em;
+
+  .cv__tools-group {
+    display: grid;
+    grid-template-columns: minmax(0, 10.5em) minmax(0, 1fr);
+    gap: 0.3em 1.2em;
+    padding: 0.65em 0;
+    border-bottom: 1px solid var(--global-border-color);
+  }
+
+  dt,
+  dd {
+    margin: 0;
+    min-width: 0;
+    line-height: 1.6;
+  }
+
+  dt {
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+
+  dd {
+    font-size: 0.95em;
+  }
+
+  @media (max-width: $small - 1px) {
+    .cv__tools-group {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.2em;
+    }
+  }
+}
