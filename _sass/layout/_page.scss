@@ -52,6 +52,30 @@
   font-size: $type-size-4;
 }
 
+.page__content .about-profile {
+  max-width: 72ch;
+  line-height: 1.65;
+  text-align: left;
+  overflow-wrap: break-word;
+
+  p {
+    margin: 0 0 1.65em;
+  }
+
+  a {
+    color: #2d703d;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+
+    &:hover { color: #1c4d28; }
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+  }
+}
+
 .page__content {
 
   h2 {
