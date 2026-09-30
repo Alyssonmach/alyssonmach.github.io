@@ -182,6 +182,10 @@
     color: var(--global-masthead-link-color);
     text-decoration: none;
 
+    // Reordering responsive links must not animate their margins or position.
+    -webkit-transition-property: color, background-color, border-color;
+    transition-property: color, background-color, border-color;
+
     &:hover {
       color: var(--global-masthead-link-color-hover);
     }

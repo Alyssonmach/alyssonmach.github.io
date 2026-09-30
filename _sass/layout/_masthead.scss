@@ -67,9 +67,9 @@
   }
 }
 
+// Keep the font weight stable so selection does not shift neighboring links.
 .masthead__menu-item.selected a {
   color: var(--global-text-color);
-  font-weight: 700;
   border-bottom: 2px solid var(--global-text-color);
   cursor: default; /* Move this here too */
 }
