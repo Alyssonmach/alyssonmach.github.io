@@ -11,8 +11,8 @@ main:
   - title: "Publicações"
     url: /publications/
 
-  - title: "Portfólio"
-    url: /portfolio/
+  # - title: "Portfólio"
+  #   url: /portfolio/
 
   - title: "Mestrado"
     url: /mestrado/
