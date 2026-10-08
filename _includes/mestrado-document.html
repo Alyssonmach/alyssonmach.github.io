@@ -1,0 +1,15 @@
+{% comment %}Encode the original path without Unicode normalization: macOS filenames may use decomposed accents.{% endcomment %}
+{% assign material = site.data.mestrado.documents | where: 'path', include.file.path | first %}
+{% assign fallback_title = include.file.basename | replace: '-', ' ' | replace: '_', ' ' %}
+{% assign material_title = material.title | default: fallback_title %}
+<li class="masters__document">
+  <a class="masters__document-link" href="{{ include.file.path | prepend: site.baseurl | url_encode | replace: '%2F', '/' | replace: '+', '%20' }}" target="_blank" rel="noopener noreferrer" type="application/pdf" data-no-partial>
+    <span class="masters__document-body">
+      <span class="masters__document-meta">PDF{% if material.date %} · <time datetime="{{ material.date }}">{{ material.date | date: '%d/%m/%Y' }}</time>{% endif %}</span>
+      <span class="masters__document-title">{{ material_title | escape }}</span>
+      {% if material.subtitle %}<span class="masters__document-subtitle">{{ material.subtitle | escape }}</span>{% endif %}
+      {% if material.description %}<span class="masters__document-description">{{ material.description | escape }}</span>{% endif %}
+    </span>
+    <span class="masters__document-action">Ler PDF <span aria-hidden="true">↗</span><span class="sr-only"> em nova aba</span></span>
+  </a>
+</li>

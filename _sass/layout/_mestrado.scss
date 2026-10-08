@@ -1,0 +1,77 @@
+.masters {
+  max-width: 52rem;
+  line-height: 1.65;
+
+  &__eyebrow {
+    color: #59666c;
+    font-size: 0.78em;
+    letter-spacing: 0.04em;
+  }
+
+  &__section {
+    border-bottom: 1px solid var(--global-border-color);
+
+    summary {
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+      min-height: 56px;
+      padding: 0.9em 0.2em;
+      cursor: pointer;
+      list-style: none;
+      border-radius: 3px;
+
+      &::-webkit-details-marker { display: none; }
+      &::after {
+        content: '';
+        width: 0.45em;
+        height: 0.45em;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
+        flex-shrink: 0;
+        margin: 0 0.3em 0.25em 0;
+      }
+      &:hover { background: #f5f8f7; }
+      &:focus-visible { outline: 2px solid #2d703d; outline-offset: 3px; }
+    }
+
+    &[open] > summary::after { transform: rotate(225deg); margin-top: 0.35em; }
+    h2 { flex: 1; min-width: 0; margin: 0; font-size: 1em; line-height: 1.4; }
+  }
+
+  &__count { font-size: 0.72em; color: #59666c; white-space: nowrap; }
+
+  &__documents { list-style: none; margin: 0; padding: 0; }
+  &__document { margin: 0; padding: 0; border-bottom: 1px solid var(--global-border-color); }
+  &__document:last-child { border-bottom: 0; }
+  &__document:first-child { border-top: 1px solid var(--global-border-color); }
+
+  a.masters__document-link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.5em;
+    padding: 1em 0.6em;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 3px;
+
+    &:hover { background: #f5f8f7; text-decoration: none; }
+    &:hover .masters__document-title { text-decoration: underline; text-underline-offset: 0.16em; }
+    &:focus-visible { outline: 2px solid #2d703d; outline-offset: 3px; }
+  }
+
+  &__document-body { min-width: 0; overflow-wrap: anywhere; }
+  &__document-meta, &__document-title, &__document-subtitle, &__document-description { display: block; }
+  &__document-meta { margin-bottom: 0.25em; font-size: 0.72em; color: #59666c; }
+  &__document-title { font-weight: 600; font-size: 0.95em; line-height: 1.45; }
+  &__document-subtitle { margin-top: 0.2em; font-size: 0.82em; }
+  &__document-description { margin-top: 0.4em; font-size: 0.82em; }
+  &__document-action { font-size: 0.8em; font-weight: 600; white-space: nowrap; color: #2d703d; }
+
+  @media (max-width: 600px) {
+    a.masters__document-link { grid-template-columns: minmax(0, 1fr); gap: 0.6em; padding: 1em 0.2em; }
+    &__document-action { justify-self: start; }
+  }
+}

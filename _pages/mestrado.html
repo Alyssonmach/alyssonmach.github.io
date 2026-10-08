@@ -3,6 +3,61 @@ layout: archive
 title: "Mestrado"
 permalink: /mestrado/
 author_profile: true
+excerpt: "Materiais de pesquisa sobre fusão, alinhamento e explicabilidade multimodal em imagens médicas."
 redirect_from:
   - /teaching/
 ---
+
+<div class="masters">
+  <p class="masters__eyebrow">Engenharia Elétrica · UFCG</p>
+
+  {% assign materials = site.static_files | sort: 'path' %}
+  {% for group in site.data.mestrado.groups %}
+    {% assign prefix_length = group.prefix | size %}
+    {% assign document_count = 0 %}
+    {% capture documents %}
+      {% for file in materials %}
+        {% assign extension = file.extname | downcase %}
+        {% assign prefix = file.path | slice: 0, prefix_length %}
+        {% if extension == '.pdf' and prefix == group.prefix %}
+          {% assign document_count = document_count | plus: 1 %}
+          {% include mestrado-document.html file=file %}
+        {% endif %}
+      {% endfor %}
+    {% endcapture %}
+    {% assign documents = documents | strip %}
+    {% if documents != '' %}
+      <details class="masters__section">
+        <summary><h2>{{ group.title }}</h2><span class="masters__count">{{ document_count }} {% if document_count == 1 %}material{% else %}materiais{% endif %}</span></summary>
+        <ul class="masters__documents">{{ documents }}</ul>
+      </details>
+    {% endif %}
+  {% endfor %}
+
+  {% assign other_count = 0 %}
+  {% capture other_documents %}
+    {% for file in materials %}
+      {% assign extension = file.extname | downcase %}
+      {% assign root = file.path | slice: 0, 16 %}
+      {% if extension == '.pdf' and root == '/files/mestrado/' %}
+        {% assign categorized = false %}
+        {% for group in site.data.mestrado.groups %}
+          {% assign prefix_length = group.prefix | size %}
+          {% assign prefix = file.path | slice: 0, prefix_length %}
+          {% if prefix == group.prefix %}{% assign categorized = true %}{% endif %}
+        {% endfor %}
+        {% unless categorized %}
+          {% assign other_count = other_count | plus: 1 %}
+          {% include mestrado-document.html file=file %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  {% endcapture %}
+  {% assign other_documents = other_documents | strip %}
+  {% if other_documents != '' %}
+    <details class="masters__section">
+      <summary><h2>Outros materiais</h2><span class="masters__count">{{ other_count }} {% if other_count == 1 %}material{% else %}materiais{% endif %}</span></summary>
+      <ul class="masters__documents">{{ other_documents }}</ul>
+    </details>
+  {% endif %}
+</div>

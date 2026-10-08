@@ -1,0 +1,34 @@
+# Novos PDFs nas pastas abaixo aparecem automaticamente.
+# Para personalizar título, descrição e data, acrescente uma entrada em documents.
+# Datas são opcionais, em AAAA-MM-DD; use o caminho exato do arquivo.
+groups:
+- id: bases
+  title: Bases de dados
+  prefix: "/files/mestrado/bases-"
+- id: revisao
+  title: Revisão bibliográfica
+  prefix: "/files/mestrado/revisao-"
+- id: apresentacoes
+  title: Apresentações
+  prefix: "/files/mestrado/apresentações/"
+- id: fichas
+  title: Fichas de leitura
+  prefix: "/files/mestrado/artigos/"
+documents:
+- path: "/files/mestrado/bases-de-dados.pdf"
+  title: Bases de dados pesquisadas
+  description: 'Apresentação por modalidades, usos previstos na pesquisa e motivos da seleção.'
+- path: "/files/mestrado/revisao-bibliografica.pdf"
+  title: Artigos selecionados para revisão
+  description: Plano de leitura com 16 trabalhos sobre aprendizado multimodal, integração entre imagem e texto e explicabilidade.
+- path: "/files/mestrado/apresentações/Apresentação 1 - 24-09.pdf"
+  title: Reunião de alinhamento — introdução à pesquisa
+  description: Apresentação da proposta de investigação, dos conceitos de fusão e
+    alinhamento e do planejamento inicial da revisão.
+  date: '2026-09-24'
+- path: "/files/mestrado/artigos/Artigo 1.pdf"
+  title: Multimodal Explainable Artificial Intelligence
+  subtitle: A Comprehensive Review of Methodological Advances and Future Research
+    Directions
+  description: Ficha de leitura sobre métodos, mecanismos e métricas de explicabilidade
+    multimodal, com discussão dos desafios da área.
