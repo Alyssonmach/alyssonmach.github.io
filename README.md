@@ -99,3 +99,29 @@ Unfortunately, one logistical issue with a template theme like Academic Pages th
 [![GitHub stars](https://img.shields.io/github/stars/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io)
 [![GitHub forks](https://img.shields.io/github/forks/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io/fork)
 </div>
+
+
+## Capas dos materiais do mestrado
+
+As miniaturas são geradas automaticamente a partir da primeira página dos PDFs.
+Não é necessário produzir ou cadastrar imagens manualmente.
+
+Após adicionar, substituir ou remover PDFs em `files/mestrado`, execute, na raiz do projeto:
+
+```sh
+# Preparação inicial (Python 3.10 ou superior; use um ambiente virtual se necessário):
+python3 -m pip install -r scripts/preview-requirements.txt
+
+# Atualização das capas:
+python3 scripts/generate_mestrado_previews.py
+```
+
+O script atualiza `images/mestrado/previews/` e `_data/mestrado_previews.json`.
+Inclua essas alterações no mesmo commit dos PDFs antes de publicar pelo GitHub Pages.
+As imagens são assets estáticos e não dependem de plugins Jekyll ou de processamento no navegador.
+O script detecta mudanças pelo conteúdo dos arquivos, reaproveita capas existentes e remove apenas as
+miniaturas geradas que deixaram de ser usadas. Não altera os PDFs originais.
+
+Na página, as capas carregam sob demanda, inclusive nas seções expansíveis.
+Um documento sem miniatura recebe um ícone de folha e seu link continua funcionando.
+A geração é feita pelo comando acima; adicionar um PDF pelo site do GitHub, sozinho, não executa o script.

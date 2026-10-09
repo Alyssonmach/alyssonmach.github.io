@@ -1,15 +1,51 @@
 {% comment %}Encode the original path without Unicode normalization: macOS filenames may use decomposed accents.{% endcomment %}
 {% assign material = site.data.mestrado.documents | where: 'path', include.file.path | first %}
+{% comment %}Match equivalent accented paths, but preserve the actual filename in the PDF URL.{% endcomment %}
+{% unless material %}
+  {% assign file_key = include.file.path | uri_escape %}
+  {% for entry in site.data.mestrado.documents %}
+    {% assign entry_key = entry.path | uri_escape %}
+    {% if entry_key == file_key %}
+      {% assign material = entry %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endunless %}
 {% assign fallback_title = include.file.basename | replace: '-', ' ' | replace: '_', ' ' %}
 {% assign material_title = material.title | default: fallback_title %}
+{% assign cover_file = nil %}
+{% assign cover = nil %}
+{% assign file_key = include.file.path | uri_escape %}
+{% for candidate in site.data.mestrado_previews %}
+  {% assign candidate_key = candidate.path | uri_escape %}
+  {% if candidate_key == file_key %}
+    {% assign cover = candidate %}
+    {% assign cover_file = site.static_files | where: 'path', cover.image | first %}
+    {% break %}
+  {% endif %}
+{% endfor %}
 <li class="masters__document">
   <a class="masters__document-link" href="{{ include.file.path | prepend: site.baseurl | url_encode | replace: '%2F', '/' | replace: '+', '%20' }}" target="_blank" rel="noopener noreferrer" type="application/pdf" data-no-partial>
+    <span class="masters__cover" aria-hidden="true">
+      <span class="masters__cover-paper{% unless cover_file %} masters__cover-paper--placeholder{% endunless %}">
+        {% if cover_file %}
+          <img src="{{ cover.image | relative_url }}" width="{{ cover.width }}" height="{{ cover.height }}" alt="" loading="lazy" decoding="async">
+        {% else %}
+          <svg viewBox="0 0 32 40" width="32" height="40" fill="none" stroke="currentColor" stroke-width="1.4" focusable="false"><path d="M7 2h12l7 7v29H7zM19 2v8h7M11 18h11M11 23h11M11 28h7"/></svg>
+          <span>PDF</span>
+        {% endif %}
+      </span>
+    </span>
     <span class="masters__document-body">
       <span class="masters__document-meta">PDF{% if material.date %} · <time datetime="{{ material.date }}">{{ material.date | date: '%d/%m/%Y' }}</time>{% endif %}</span>
       <span class="masters__document-title">{{ material_title | escape }}</span>
       {% if material.subtitle %}<span class="masters__document-subtitle">{{ material.subtitle | escape }}</span>{% endif %}
       {% if material.description %}<span class="masters__document-description">{{ material.description | escape }}</span>{% endif %}
     </span>
-    <span class="masters__document-action">Ler PDF <span aria-hidden="true">↗</span><span class="sr-only"> em nova aba</span></span>
+    <span class="masters__document-action">
+      <span>Ler PDF</span>
+      <svg class="masters__document-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      <span class="sr-only"> em nova aba</span>
+    </span>
   </a>
 </li>

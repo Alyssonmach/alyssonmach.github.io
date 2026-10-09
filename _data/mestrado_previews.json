@@ -1,0 +1,30 @@
+[
+  {
+    "path": "/files/mestrado/apresentações/Apresentação 1 - 24-09.pdf",
+    "image": "/images/mestrado/previews/preview-aa3d156323def885-930df2d5519382d3.webp",
+    "width": 640,
+    "height": 480,
+    "source_sha256": "11e7cababdeb3c39955fd6b4a3f564a897261b4b6bd5db8f4a6e763ef694e87b"
+  },
+  {
+    "path": "/files/mestrado/artigos/Artigo 1.pdf",
+    "image": "/images/mestrado/previews/preview-d3ed11207037b9f2-47e7b35d6785f5bd.webp",
+    "width": 453,
+    "height": 640,
+    "source_sha256": "8f38f4c5292f2d558fa4ee7b7313562967cf063a6c9cace1a203482d256eefdd"
+  },
+  {
+    "path": "/files/mestrado/bases-de-dados.pdf",
+    "image": "/images/mestrado/previews/preview-c27469d4e7315c50-8ef0594ea3810790.webp",
+    "width": 640,
+    "height": 453,
+    "source_sha256": "5ecf6e22963d8c72d114477cb8376d373aef69e33c67e1511c20caad38968568"
+  },
+  {
+    "path": "/files/mestrado/revisao-bibliografica.pdf",
+    "image": "/images/mestrado/previews/preview-c56ac586ea601356-d3e1ee7778715072.webp",
+    "width": 640,
+    "height": 453,
+    "source_sha256": "4c49d03ae660e956aeeca598b4abe5439805e23b63a11b322bbde766e8c5eac3"
+  }
+]

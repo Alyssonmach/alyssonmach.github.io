@@ -128,3 +128,16 @@
     }
   }
 }
+
+/* Continuous CV: no toolbar, frame border, or nested scroll area. */
+.cv__content:has(.cv-document) { max-width: none; }
+.cv-document {
+  min-width: 0;
+  &__viewer {
+    display: block;
+    width: 100%;
+    height: 600px; // Replaced by the document's full height as soon as it loads.
+    border: 0;
+    background: #fff;
+  }
+}

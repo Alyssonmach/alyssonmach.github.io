@@ -10,7 +10,7 @@ groups:
   prefix: "/files/mestrado/revisao-"
 - id: apresentacoes
   title: Apresentações
-  prefix: "/files/mestrado/apresentações/"
+  prefix: "/files/mestrado/apresentações/"
 - id: fichas
   title: Fichas de leitura
   prefix: "/files/mestrado/artigos/"
@@ -21,8 +21,8 @@ documents:
 - path: "/files/mestrado/revisao-bibliografica.pdf"
   title: Artigos selecionados para revisão
   description: Plano de leitura com 16 trabalhos sobre aprendizado multimodal, integração entre imagem e texto e explicabilidade.
-- path: "/files/mestrado/apresentações/Apresentação 1 - 24-09.pdf"
-  title: Reunião de alinhamento — introdução à pesquisa
+- path: "/files/mestrado/apresentações/Apresentação 1 - 24-09.pdf"
+  title: Apresentação 1
   description: Apresentação da proposta de investigação, dos conceitos de fusão e
     alinhamento e do planejamento inicial da revisão.
   date: '2026-09-24'
