@@ -56,7 +56,7 @@ sourceurl: "https://exemplo.org/publicacao"
 ---
 ```
 
-O Jekyll preenche a coleção e o layout da página. O endereço é gerado a partir do nome do arquivo; use `permalink` apenas se precisar definir outro. Categorias atuais: `conferences`, `manuscripts`, `presentations` e `theses`. A listagem agrupa por categoria e ordena pelo ano, do mais recente para o mais antigo. O título abre o endereço em `sourceurl`. Esse campo aceita qualquer URL externa que você queira usar como link principal, como uma página do ResearchGate, do periódico, de um repositório ou de uma instituição. Use `"#"` enquanto não houver um link disponível.
+O Jekyll preenche a coleção e o layout da página. O endereço é gerado a partir do nome do arquivo; use `permalink` apenas se precisar definir outro. Categorias atuais: `conferences`, `manuscripts`, `presentations`, `theses` e `internships`. Os identificadores, nomes exibidos e a ordem das categorias ficam em `_data/publication_categories.yml`. A listagem ordena os trabalhos dentro de cada categoria pelo ano, do mais recente para o mais antigo. O título abre o endereço em `sourceurl`. Esse campo aceita qualquer URL externa que você queira usar como link principal, como uma página do ResearchGate, do periódico, de um repositório ou de uma instituição. Use `"#"` enquanto não houver um link disponível.
 
 Autores, veículo ou instituição e tipo são opcionais e aparecem na página individual quando informados. `date` é opcional; informe-o apenas quando a data completa for conhecida. O texto após o bloco YAML é conteúdo adicional da página individual.
 
