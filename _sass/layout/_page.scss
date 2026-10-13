@@ -52,14 +52,31 @@
   font-size: $type-size-4;
 }
 
+// Apply the title accent only to the biography page.
+.page__inner-wrap:has(.about-profile) > header .page__title {
+  margin-bottom: 1.35rem;
+  line-height: 1.2;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 2px;
+    margin-top: 0.65rem;
+    background-color: var(--global-base-color);
+    opacity: 0.75;
+  }
+}
+
 .page__content .about-profile {
-  max-width: 72ch;
-  line-height: 1.65;
+  max-width: 65ch;
+  color: mix(#000, $dark-gray, 12%);
+  line-height: 1.8;
   text-align: left;
   overflow-wrap: break-word;
 
   p {
-    margin: 0 0 1.65em;
+    margin: 0 0 1.8em;
   }
 
   a {

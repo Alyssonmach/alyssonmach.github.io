@@ -5,8 +5,6 @@ permalink: /publications/
 author_profile: true
 ---
 
-<p class="publications__intro">Consulte meu <a href="{{ site.author.orcid }}">ORCID</a>{% if site.author.googlescholar %} e meu perfil no <a href="{{ site.author.googlescholar }}">Google Scholar</a>{% endif %}.</p>
-
 <div class="publications">
   {% assign categories = site.publications | group_by: 'category' | sort: 'name' %}
   {% for category in categories %}
