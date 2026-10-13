@@ -6,10 +6,9 @@ author_profile: true
 ---
 
 <div class="publications">
-  {% assign categories = site.publications | group_by: 'category' | sort: 'name' %}
-  {% for category in categories %}
-    {% assign works = category.items | sort: 'publication_year' | reverse %}
-    {% assign category_title = site.data.publication_categories[category.name] | default: category.name | default: 'Outras publicações' %}
+  {% for category in site.data.publication_categories %}
+    {% assign works = site.publications | where: 'category', category.id | sort: 'publication_year' | reverse %}
+    {% assign category_title = category.title | default: category.id | default: 'Outras publicações' %}
     {% if works.size > 0 %}
       <section class="publications__group" aria-labelledby="publication-category-{{ forloop.index }}">
         <h2 id="publication-category-{{ forloop.index }}" class="publications__heading">{{ category_title }}</h2>

@@ -1,4 +1,10 @@
-conferences: Trabalhos em congressos
-manuscripts: Resumos em periódico
-presentations: Apresentações em congressos
-theses: Trabalhos acadêmicos
+- id: conferences
+  title: Trabalhos em congressos
+- id: manuscripts
+  title: Resumos em periódico
+- id: presentations
+  title: Apresentações em congressos
+- id: theses
+  title: Tese de Graduação
+- id: internships
+  title: Estágio supervisionado
