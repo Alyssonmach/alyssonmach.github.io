@@ -45,30 +45,20 @@ Os arquivos em `_pages/` definem título, endereço (`permalink`) e layout no bl
 
 ### Publicações
 
-Copie um arquivo existente em `_publications/` e atualize o bloco inicial. Exemplo:
+Crie um arquivo Markdown em `_publications/`, usando o título como nome, por exemplo `_publications/2026-titulo-do-trabalho.md`. O cadastro mínimo é:
 
 ```yaml
 ---
 title: "Título do trabalho"
-collection: publications
-layout: publication
 category: conferences
-permalink: /publication/2026-titulo-do-trabalho/
-date: "2026-01-01"
 publication_year: 2026
-date_precision: year
-type: "Trabalho em congresso"
-venue: "Nome do evento ou periódico"
-authors: "SOBRENOME, Nome; SOBRENOME, Nome"
-paperurl: "https://exemplo.org/trabalho"
-sourceurl: "https://orcid.org/0000-0003-3025-9382"
-citation: "Referência bibliográfica do trabalho."
+sourceurl: "https://exemplo.org/publicacao"
 ---
 ```
 
-A listagem agrupa por `category` e ordena por `date`, da mais recente para a mais antiga. Categorias atuais: `conferences`, `manuscripts`, `presentations` e `theses`. Quando apenas o ano é conhecido, use `AAAA-01-01` para ordenar e mantenha `date_precision: year`.
+O Jekyll preenche a coleção e o layout da página. O endereço é gerado a partir do nome do arquivo; use `permalink` apenas se precisar definir outro. Categorias atuais: `conferences`, `manuscripts`, `presentations` e `theses`. A listagem agrupa por categoria e ordena pelo ano, do mais recente para o mais antigo. O título abre o endereço em `sourceurl`. Esse campo aceita qualquer URL externa que você queira usar como link principal, como uma página do ResearchGate, do periódico, de um repositório ou de uma instituição. Use `"#"` enquanto não houver um link disponível.
 
-Campos opcionais incluem `doi` (somente o identificador), `paper_label`, `event`, `volume`, `supplement`, `issn` e `bibtexurl`. O botão BibTeX só aparece quando o arquivo indicado existe; salve-o, por exemplo, em `files/bibtex/`. O texto após o bloco YAML aparece na página individual.
+Autores, veículo ou instituição e tipo são opcionais e aparecem na página individual quando informados. `date` é opcional; informe-o apenas quando a data completa for conhecida. O texto após o bloco YAML é conteúdo adicional da página individual.
 
 ### Materiais do mestrado
 
@@ -116,7 +106,9 @@ npm install
 npm run build:js
 ```
 
-`npm run watch:js` recompila durante a edição. `navigation.js` e `cv-viewer.js` são carregados separadamente. Plotly e Mermaid são obtidos por CDN quando o conteúdo exige essas bibliotecas.
+`npm run watch:js` recompila durante a edição. `navigation.js`, `link-targets.js` e `cv-viewer.js` são carregados separadamente. Plotly e Mermaid são obtidos por CDN quando o conteúdo exige essas bibliotecas.
+
+`assets/js/link-targets.js` faz links externos e PDFs abrirem em nova aba, inclusive após navegação entre páginas. Links internos e âncoras mantêm a navegação na aba do site. Essa regra é aplicada automaticamente aos links do conteúdo.
 
 Antes de publicar:
 
