@@ -5,6 +5,6 @@ permalink: "/publication/2022-interpretabilidade-redes-convolucionais/"
 publication_year: 2022
 type: "Resumo em periódico"
 venue: "40º Congresso Brasileiro de Pneumologia e Tisiologia (SBPT)."
-sourceurl: "#"
+sourceurl: "https://www.researchgate.net/publication/414516565"
 authors: "GURGEL, Marcelo; BARBOSA, Alysson; VELOSO, Luciana; ARAÚJO, Leo;  SOUSA, Thiago."
 ---
