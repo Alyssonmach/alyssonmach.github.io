@@ -146,8 +146,12 @@
 .profile-header__inner {
   @include container;
 
+  @include breakpoint($large) {
+    max-width: $site-container-max-width;
+  }
+
   @include breakpoint($x-large) {
-    max-width: $x-large;
+    max-width: $site-container-max-width;
   }
 }
 
@@ -160,7 +164,7 @@
     "urls urls";
   align-items: center;
   gap: 12px 16px;
-  max-width: 1100px;
+  max-width: $site-reading-max-width;
   margin: 0 auto;
   padding: 16px 1em;
 

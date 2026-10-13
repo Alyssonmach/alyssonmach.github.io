@@ -1,5 +1,5 @@
 .masters {
-  max-width: 52rem;
+  max-width: $site-reading-max-width;
   line-height: 1.65;
 
   &__eyebrow {
@@ -115,6 +115,14 @@
   &__document-body { min-width: 0; overflow-wrap: anywhere; }
   &__document-meta, &__document-title, &__document-subtitle, &__document-description { display: block; }
   &__document-meta { margin-bottom: 0.25em; font-size: 0.72em; color: #59666c; }
+  &__document-title,
+  &__document-subtitle,
+  &__document-description {
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
   &__document-title { font-weight: 600; font-size: 0.95em; line-height: 1.45; }
   &__document-subtitle { margin-top: 0.2em; font-size: 0.82em; }
   &__document-description { margin-top: 0.4em; font-size: 0.82em; }

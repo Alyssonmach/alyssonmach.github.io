@@ -15,8 +15,12 @@
     margin-top: 2em;
   }
 
+  @include breakpoint($large) {
+    max-width: $site-container-max-width;
+  }
+
   @include breakpoint($x-large) {
-    max-width: $x-large;
+    max-width: $site-container-max-width;
   }
 }
 
@@ -24,7 +28,7 @@
   @include breakpoint($large) {
     @include span(12 of 12 last);
     float: none;
-    max-width: 1100px;
+    max-width: $site-reading-max-width;
     margin-right: auto;
     margin-left: auto;
   }
@@ -81,10 +85,12 @@
 }
 
 .page__content .about-profile {
-  max-width: 65ch;
+  max-width: $site-reading-max-width;
   color: mix(#000, $dark-gray, 12%);
   line-height: 1.8;
-  text-align: left;
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
   overflow-wrap: break-word;
 
   p {
