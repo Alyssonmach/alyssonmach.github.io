@@ -28,7 +28,7 @@
           {% for line in bio_lines offset:1 %}
             {% assign topic = line | strip %}
             {% if topic == 'Processamento de Imagens Digitais' %}
-              <li class="author__expertise-long">Processamento de<span class="author__topic-break"> </span>Imagens Digitais</li>
+              <li>Processamento de Imagens Digitais</li>
             {% elsif topic != '' %}
               <li>{{ topic }}</li>
             {% endif %}
