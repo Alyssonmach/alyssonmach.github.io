@@ -5,7 +5,7 @@ _site/
 # Ignore the directory for local files during development
 local/
 
-# Ignore the Gemfile that is generated
+# Ignore the dependency lockfile generated locally
 Gemfile.lock
 
 # Ignore files created by npm
@@ -21,3 +21,8 @@ package-lock.json
 
 # Ignore files created by MacOS
 .DS_Store
+
+# Python environments and bytecode
+.venv/
+__pycache__/
+*.py[cod]

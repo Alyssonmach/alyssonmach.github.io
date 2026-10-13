@@ -41,36 +41,44 @@ def render_cover(source, destination):
 
 def generate(root):
     root = Path(root).resolve()
-    inputs = root / 'files/mestrado'
-    if not inputs.is_dir():
-        raise ValueError(f"Pasta não encontrada: {inputs}")
-    output = root / 'images/mestrado/previews'
+    pdf_directory = root / 'files/mestrado'
+    if not pdf_directory.is_dir():
+        raise ValueError(f"Pasta não encontrada: {pdf_directory}")
+    preview_directory = root / 'images/mestrado/previews'
     manifest = root / '_data/mestrado_previews.json'
-    output.mkdir(parents=True, exist_ok=True)
+    preview_directory.mkdir(parents=True, exist_ok=True)
     previous = json.loads(manifest.read_text()) if manifest.exists() else []
-    cached = {entry['path']: entry for entry in previous}
+    cached_entries = {entry['path']: entry for entry in previous}
     entries, errors = [], []
-    generated = 0
-    paths = sorted(p for p in inputs.rglob('*') if p.is_file() and p.suffix.lower() == '.pdf')
-    for source in paths:
+    generated_count = 0
+    pdf_paths = sorted(
+        path for path in pdf_directory.rglob('*')
+        if path.is_file() and path.suffix.lower() == '.pdf'
+    )
+    for source in pdf_paths:
         # Matching keys are canonical; the PDF link still uses the actual filename.
-        key = unicodedata.normalize('NFC', '/' + source.relative_to(root).as_posix())
-        digest = hashlib.sha256(source.read_bytes()).hexdigest()
-        path_id = hashlib.sha256(key.encode()).hexdigest()[:16]
-        version_id = hashlib.sha256(f'{digest}:{RENDER_VERSION}:{MAX_EDGE}'.encode()).hexdigest()[:16]
+        source_url = unicodedata.normalize('NFC', '/' + source.relative_to(root).as_posix())
+        source_digest = hashlib.sha256(source.read_bytes()).hexdigest()
+        path_id = hashlib.sha256(source_url.encode()).hexdigest()[:16]
+        version_id = hashlib.sha256(f'{source_digest}:{RENDER_VERSION}:{MAX_EDGE}'.encode()).hexdigest()[:16]
         filename = f'preview-{path_id}-{version_id}.webp'
         cover_url = '/images/mestrado/previews/' + filename
-        old = cached.get(key)
-        if old and old.get('source_sha256') == digest and old.get('image') == cover_url and (output / filename).is_file():
-            entries.append(old)
+        cached_entry = cached_entries.get(source_url)
+        if (
+            cached_entry
+            and cached_entry.get('source_sha256') == source_digest
+            and cached_entry.get('image') == cover_url
+            and (preview_directory / filename).is_file()
+        ):
+            entries.append(cached_entry)
             continue
         try:
-            width, height = render_cover(source, output / filename)
+            width, height = render_cover(source, preview_directory / filename)
         except Exception as error:
-            errors.append(f'{key}: {error}')
+            errors.append(f'{source_url}: {error}')
             continue
-        generated += 1
-        entries.append(dict(path=key, image=cover_url, width=width, height=height, source_sha256=digest))
+        generated_count += 1
+        entries.append(dict(path=source_url, image=cover_url, width=width, height=height, source_sha256=source_digest))
 
     # Do not publish a partial manifest when a PDF could not be rendered.
     if errors:
@@ -82,10 +90,10 @@ def generate(root):
         temporary.write_text(payload)
         temporary.replace(manifest)
     used = {Path(entry['image']).name for entry in entries}
-    for path in output.iterdir():
+    for path in preview_directory.iterdir():
         if path.is_file() and GENERATED_NAME.fullmatch(path.name) and path.name not in used:
             path.unlink()
-    print(f'{len(entries)} capas disponíveis; {generated} geradas ou atualizadas.')
+    print(f'{len(entries)} capas disponíveis; {generated_count} geradas ou atualizadas.')
     return entries
 
 
