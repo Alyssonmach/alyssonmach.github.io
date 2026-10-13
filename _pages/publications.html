@@ -8,7 +8,7 @@ author_profile: true
 <div class="publications">
   {% assign categories = site.publications | group_by: 'category' | sort: 'name' %}
   {% for category in categories %}
-    {% assign works = category.items | sort: 'date' | reverse %}
+    {% assign works = category.items | sort: 'publication_year' | reverse %}
     {% assign category_title = site.data.publication_categories[category.name] | default: category.name | default: 'Outras publicações' %}
     {% if works.size > 0 %}
       <section class="publications__group" aria-labelledby="publication-category-{{ forloop.index }}">
@@ -17,10 +17,9 @@ author_profile: true
           <article class="publication-card">
             <p class="publication-card__year">{{ work.publication_year }}</p>
             <div class="publication-card__body">
-              <h3><a href="{{ work.url | relative_url }}">{{ work.title }}</a></h3>
+              <h3><a href="{{ work.sourceurl | default: '#' | escape }}">{{ work.title }}</a></h3>
               {% if work.authors %}<p class="publication-card__authors">{{ work.authors }}</p>{% endif %}
-              <p class="publication-card__venue"><i>{{ work.venue }}</i>{% if work.volume %} · v. {{ work.volume }}, supl. {{ work.supplement }}{% endif %}</p>
-              {% include publication-links.html work=work %}
+              {% if work.venue %}<p class="publication-card__venue"><i>{{ work.venue }}</i>{% if work.volume %} · v. {{ work.volume }}{% if work.supplement %}, supl. {{ work.supplement }}{% endif %}{% endif %}</p>{% endif %}
             </div>
           </article>
         {% endfor %}

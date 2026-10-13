@@ -1,3 +1,5 @@
+import { configureLinkTargets } from './link-targets.js';
+
 // Progressive navigation: retain the header and matching author profile.
 (function () {
   if (!window.fetch || !window.AbortController) return;
@@ -141,6 +143,7 @@
     try {
       const html = await readPage(url, controller.signal);
       const doc = new DOMParser().parseFromString(html, 'text/html');
+      configureLinkTargets(doc, url);
       if (pendingNavigation !== controller) return;
       if (!isCompatiblePage(doc)) throw Error('Full navigation required');
       const next = doc.getElementById('main');
