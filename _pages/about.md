@@ -1,10 +1,9 @@
 ---
-permalink: /
+permalink: /about/
 title: "Sobre mim"
 excerpt: "Engenheiro eletricista e mestrando na UFCG, com atuação em inteligência artificial, visão computacional e pesquisa aplicada."
 author_profile: true
 redirect_from:
-  - /about/
   - /about.html
 ---
 

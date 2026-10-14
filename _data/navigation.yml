@@ -1,7 +1,7 @@
 # Links do cabeçalho, na ordem de exibição; páginas fora do menu continuam publicadas.
 main:
   - title: "Publicações"
-    url: /publications/
+    url: /
 
 
   - title: "Mestrado"
