@@ -1,5 +1,5 @@
 ---
-title: "Estruturação de Laboratórios de Inteligência Artificial: Uma Abordagem Prática Integrando Visão Computacional e NLP"
+title: "Estruturação de Laboratórios de Inteligência Artificial: Abordagem Prática com Visão Computacional e Processamento de Linguagem Natural"
 category: internships
 permalink: "/publication/2026-estagio/"
 publication_year: 2026
