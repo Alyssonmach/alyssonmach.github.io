@@ -5,6 +5,6 @@ permalink: "/publication/2026-interpretabilidade-reusabilidade/"
 publication_year: 2026
 type: "Trabalho acadêmico"
 venue: "Universidade Federal de Campina Grande (UFCG)."
-sourceurl: "https://www.researchgate.net/publication/414516459"
+sourceurl: "https://dspace.sti.ufcg.edu.br/handle/riufcg/48413"
 authors: "BARBOSA, Alysson; VELOSO, Luciana."
 ---
