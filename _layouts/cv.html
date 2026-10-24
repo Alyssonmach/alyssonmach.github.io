@@ -1,7 +1,36 @@
 ---
-layout: archive
+layout: default
 ---
 
-<div class="cv__content">
-  {{ content }}
+{% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
+  {% include page__hero.html %}
+{% endif %}
+
+{% if page.url != "/" and site.breadcrumbs %}
+  {% unless paginator %}
+    {% include breadcrumbs.html %}
+  {% endunless %}
+{% endif %}
+
+<div id="main" role="main">
+  {% include sidebar.html %}
+
+  <div class="archive">
+    {% unless page.header.overlay_color or page.header.overlay_image %}
+      <header class="cv__page-header">
+        <h1 class="page__title">{{ page.title }}</h1>
+        <a class="cv__download-link"
+           href="{{ '/files/CV-LaTeX/cv-llt.pdf' | relative_url }}"
+           download="Curriculum-Vitae-Alysson-Machado.pdf"
+           aria-label="Baixar currículo em PDF"
+           title="Baixar currículo em PDF">
+          <i class="fa fa-download" aria-hidden="true"></i>
+        </a>
+      </header>
+    {% endunless %}
+
+    <div class="cv__content">
+      {{ content }}
+    </div>
+  </div>
 </div>

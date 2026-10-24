@@ -131,6 +131,36 @@
 
 /* Continuous CV: no toolbar, frame border, or nested scroll area. */
 .cv__content:has(.cv-document) { max-width: none; }
+.cv__page-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55em;
+  margin: 0 0 1.25em;
+
+  .page__title {
+    margin: 0;
+  }
+}
+.archive .cv__download-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  color: #B6073F;
+  font-size: $type-size-3;
+  line-height: 1;
+  text-decoration: none;
+
+  &:hover {
+    color: #8F062E;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid #B6073F;
+    outline-offset: 4px;
+  }
+}
 .cv-document {
   min-width: 0;
   &__viewer {
