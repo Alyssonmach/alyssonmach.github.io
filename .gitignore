@@ -26,3 +26,23 @@ package-lock.json
 .venv/
 __pycache__/
 *.py[cod]
+
+# Auxiliary files generated while compiling the CV with LaTeX.
+# Keep cv-llt.pdf versioned because the CV page serves it directly.
+files/CV-LaTeX/*.aux
+files/CV-LaTeX/*.bbl
+files/CV-LaTeX/*.bcf
+files/CV-LaTeX/*.blg
+files/CV-LaTeX/*.fdb_latexmk
+files/CV-LaTeX/*.fls
+files/CV-LaTeX/*.lof
+files/CV-LaTeX/*.log
+files/CV-LaTeX/*.lot
+files/CV-LaTeX/*.nav
+files/CV-LaTeX/*.out
+files/CV-LaTeX/*.run.xml
+files/CV-LaTeX/*.snm
+files/CV-LaTeX/*.synctex.gz
+files/CV-LaTeX/*.toc
+files/CV-LaTeX/*.vrb
+files/CV-LaTeX/*.xdv
