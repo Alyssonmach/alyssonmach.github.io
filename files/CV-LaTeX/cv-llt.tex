@@ -1,0 +1,98 @@
+\documentclass[a4paper,skipsamekey,11pt,brazilian]{curve}
+
+\usepackage{settings}
+
+% Numeração de páginas.
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+% Número no rodapé à direita.
+\fancyfoot[R]{%
+    \sffamily
+    \bfseries
+    \large
+    \color{MarkerColour}
+    \thepage
+}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Tipografia.
+\ifxetexorluatex
+  \usepackage{fontspec} 
+  \usepackage[p,osf,swashQ]{cochineal}
+  \usepackage[medium,bold]{cabin}
+  \usepackage[varqu,varl,scale=0.9]{zi4}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[p,osf,swashQ]{cochineal}
+  \usepackage{cabin}
+  \usepackage[varqu,varl,scale=0.9]{zi4}
+\fi
+
+% Cabeçalho.
+\newcommand{\cvcontact}[2]{%
+  \makebox[1.4em][l]{\color{MarkerColour!80!black}#1}#2%
+}
+\leftheader{%
+  {\LARGE\bfseries\sffamily Alysson Machado de Oliveira Barbosa}
+  \par\smallskip
+  {\small\sffamily
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabular}{@{}l@{\hspace{1.4em}}l@{\hspace{1.4em}}l@{}}
+      \multicolumn{2}{@{}l@{\hspace{1.4em}}}{\cvcontact{\faEnvelope[regular]}{\href{mailto:alysson.barbosa@ee.ufcg.edu.br}{alysson.barbosa@ee.ufcg.edu.br}}}
+      & \cvcontact{\faGlobe}{\href{https://alyssonmach.github.io/}{alyssonmach.github.io}} \\[2pt]
+      \cvcontact{\faLinkedin}{\href{https://www.linkedin.com/in/alyssonmac/}{LinkedIn}}
+      & \cvcontact{\faGraduationCap}{\href{http://lattes.cnpq.br/0536933202710340}{Currículo Lattes}}
+      & \cvcontact{\faOrcid}{\href{https://orcid.org/0000-0003-3025-9382}{ORCID}}
+    \end{tabular}%
+  }%
+}
+
+\rightheader{~}
+\photo[r]{foto-alysson.png}
+\photoscale{0.13}
+
+\title{Curriculum Vitae}
+
+% Comandos de formatação das seções.
+\newcommand{\cvdivider}{%
+  \par\nobreak
+  \begingroup
+  \setlength{\baselineskip}{9pt}%
+  \noindent\makebox[\linewidth][l]{%
+    \rule[-3pt]{0pt}{9pt}%
+    {\color{black!15}\rule[1pt]{\linewidth}{0.3pt}}%
+  }\par
+  \endgroup
+}
+\newlength{\cvlabelwidth}
+\newcommand{\cvdetail}[2]{%
+  \par\begingroup
+  \settowidth{\cvlabelwidth}{\textbf{#1}:\space}%
+  \hangindent=\cvlabelwidth\hangafter=1%
+  \noindent\textbf{#1}:\space#2\par
+  \endgroup
+}
+
+\begin{document}
+\makeheaders[c]
+
+% Conteúdo do currículo.
+\makerubric{employment}
+
+\newpage
+
+\makerubric{education}
+
+\makerubric{skills}
+\makerubric{misc}
+
+\newpage
+
+\input{publications}
+
+\end{document}

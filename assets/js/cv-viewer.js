@@ -85,7 +85,7 @@ async function initialize() {
   pdfjs = await import('../pdfjs/pdf.min.mjs');
   pdfjs.GlobalWorkerOptions.workerSrc = new URL('../pdfjs/pdf.worker.min.mjs', import.meta.url).href;
   pdfDocument = await pdfjs.getDocument({
-    url: new URL('../../files/cv/cv.pdf', import.meta.url).href,
+    url: new URL('../../files/CV-LaTeX/cv-llt.pdf', import.meta.url).href,
     standardFontDataUrl: new URL('../pdfjs/standard_fonts/', import.meta.url).href,
     isEvalSupported: false,
     useWasm: false
