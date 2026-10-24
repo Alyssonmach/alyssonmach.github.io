@@ -37,7 +37,7 @@ docker compose up --build
 | Publicações | `_publications/` | Um arquivo Markdown por trabalho |
 | Categorias de publicações | `_data/publication_categories.yml` | Identificadores e títulos exibidos na listagem |
 | Materiais do mestrado | `files/mestrado/` e `_data/mestrado.yml` | PDFs, grupos e metadados dos documentos |
-| Currículo exibido no menu | `files/cv/cv.pdf` | Substitua o PDF mantendo o nome e o caminho |
+| Currículo exibido no menu | `files/CV-LaTeX/` | Edite os fontes LaTeX e atualize `cv-llt.pdf` após compilar |
 
 `url` contém a origem do site, sem caminho; `baseurl` fica vazio para `usuario.github.io` ou recebe `/repositorio` quando o site usa um subdiretório. `repository` segue o formato `usuario/repositorio`. Em `author`, links acadêmicos recebem a URL completa; `github` e `linkedin` recebem o nome de usuário. Campos de perfil vazios não exibem links. `site_theme` aceita `default`, `air`, `sunrise`, `mint`, `dirt` ou `contrast`.
 
@@ -88,7 +88,7 @@ Inclua `_data/mestrado_previews.json` e `images/mestrado/previews/` no mesmo com
 
 ### Currículo
 
-A página `/cv/` mostra `files/cv/cv.pdf` usando o leitor em `assets/cv-viewer.html`. Para atualizar o currículo, basta substituir esse PDF.
+A página `/cv/` mostra `files/CV-LaTeX/cv-llt.pdf` usando o leitor em `assets/cv-viewer.html`. Os fontes LaTeX e seus arquivos de apoio ficam em `files/CV-LaTeX/`; mantenha o PDF compilado versionado para que o site possa servi-lo. O `.gitignore` ignora os arquivos auxiliares gerados durante a compilação.
 
 A página alternativa `/cv-json/`, herdada do template, usa `_data/cv.json` e é independente do currículo exibido no menu. Edite esse JSON diretamente se precisar manter essa página.
 
